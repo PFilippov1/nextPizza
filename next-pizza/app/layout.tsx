@@ -20,10 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <body className={`${nunito.variable} ${nunito.variable} antialiased`}>
-        <main className='min-h-screen'>{children}
-          <Header/>
+        <main className="min-h-screen">
+          <Header />
+          {children}
         </main>
       </body>
     </html>

@@ -1,4 +1,3 @@
-import { products } from '@/prisma/constants';
 import { prisma } from '@/prisma/prisma-client';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -14,5 +13,6 @@ export async function GET(req: NextRequest) {
     },
     take: 5,
   });
+
   return NextResponse.json(products);
 }

@@ -5,12 +5,11 @@ import { PizzaSize, PizzaType } from '../constants/pizza';
  * 
 *Function for calculating the total cost of pizza
  *
- * @param type - Test test of the selected pizza
+ * @param type - Dough type of the selected pizza
  * @param size -The size of the selected pizza
  * @param items - List of variations
  * @param ingredients - List of ingredients
  * @param selectedIngredients - Selected ingredients
- *
  * @returns number total cost
  */
 

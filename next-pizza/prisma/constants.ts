@@ -8,7 +8,7 @@ export const categories = [
   {  name: 'Desserts' },
 ];
 
-export const ingredients = [
+export const _ingredients = [
   {
     name: 'Cheese side',
     price: 3,

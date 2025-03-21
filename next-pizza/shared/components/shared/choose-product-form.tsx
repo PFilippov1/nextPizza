@@ -7,6 +7,7 @@ interface Props {
   imageUrl: string;
   name: string;
   price: number;
+  loading?: boolean;
   onSubmit?: VoidFunction;
   className?: string;
 }
@@ -22,7 +23,7 @@ export const ChooseProductForm: React.FC<Props> = ({
   imageUrl,
   onSubmit,
   price,
-  // loading,
+  loading,
   className,
 }) => {
   return (
@@ -39,7 +40,7 @@ export const ChooseProductForm: React.FC<Props> = ({
 
         <Button
           onClick={() => onSubmit?.()}
-          // loading={loading}
+          loading={loading}
           className="px-10 h-[55px] text-base rounded-[18px] w-full mt-10"
         >
           Add to the cart for {price} $

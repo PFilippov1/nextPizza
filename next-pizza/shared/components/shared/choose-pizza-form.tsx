@@ -70,7 +70,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
         <p className="text-gray-400">{textDetails}</p>
         <div className="flex flex-col gap-4 mt-4">
           <GroupVariants
-            selectedValue={String(size)}
+            value={String(size)}
             items={availableSizes}
             onClick={(value) => {
               setSize(Number(value) as PizzaSize);
@@ -78,7 +78,7 @@ export const ChoosePizzaForm: React.FC<Props> = ({
           />
 
           <GroupVariants
-            selectedValue={String(type)}
+            value={String(type)}
             items={pizzaTypes}
             onClick={(value) => {
               setType(Number(value) as PizzaType);

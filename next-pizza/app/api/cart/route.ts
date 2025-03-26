@@ -90,10 +90,9 @@ export async function POST(req: NextRequest) {
 
     const updatedUserCart = await updateCartTotalAmount(token);
     const resp = NextResponse.json(updatedUserCart);
-    
+
     resp.cookies.set('cartToken', token);
     return resp;
-
   } catch (error) {
     console.log('[CART_POST] Server error', error);
     return NextResponse.json({ message: 'Failed to create a cart' }, { status: 500 });

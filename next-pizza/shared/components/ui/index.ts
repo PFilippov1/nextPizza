@@ -8,4 +8,5 @@ export { Skeleton } from './skeleton';
 export { Slider } from './slider';
 export { Input } from './input';
 export {Sheet}  from './sheet';
+export {Textarea} from './textarea'
 

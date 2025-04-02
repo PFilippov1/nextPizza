@@ -14,7 +14,7 @@ import {
 import { checkoutFormSchema, CheckoutFormValues } from '@/shared/constants';
 
 export default function CheckoutPage() {
-  const { totalAmount, items, updateItemQuantity, removeCartItem } = useCart();
+  const { totalAmount, items, updateItemQuantity, removeCartItem, loading } = useCart();
   const form = useForm<CheckoutFormValues>({
     resolver: zodResolver(checkoutFormSchema),
     defaultValues: {
@@ -45,15 +45,16 @@ export default function CheckoutPage() {
             <div className="flex flex-col gap-10 flex-1 mb-20">
               <CheckoutCart
                 items={items}
+                loading={loading}
                 onClickCountButton={onClickCountButton}
                 removeCartItem={removeCartItem}
               />
-              <CheckoutPersonalForm />
-              <CheckoutAddressForm />
+              <CheckoutPersonalForm className={loading ? 'opacity-40 pointer-events-none' : ''} />
+              <CheckoutAddressForm className={loading ? 'opacity-40 pointer-events-none' : ''}/>
             </div>
             {/*right side*/}
             <div className="w-[450px]">
-              <CheckoutSideBar totalAmount={totalAmount} />
+              <CheckoutSideBar totalAmount={totalAmount} loading={loading} />
             </div>
           </div>
         </form>

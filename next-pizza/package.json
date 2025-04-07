@@ -39,6 +39,7 @@
     "react-hook-form": "^7.55.0",
     "react-hot-toast": "^2.5.2",
     "react-use": "^17.6.0",
+    "resend": "^4.2.0",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "ts-node": "^10.9.2",

@@ -3,7 +3,7 @@
 import { prisma } from '@/prisma/prisma-client';
 import { PayOrderTemplate } from '@/shared/components';
 import { CheckoutFormValues } from '@/shared/constants';
-import { sendEmail } from '@/shared/lib';
+import { createPayment, sendEmail } from '@/shared/lib';
 import { OrderStatus } from '@prisma/client';
 import { cookies } from 'next/headers';
 
@@ -76,7 +76,26 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    // TODO payment integration
+    const paymentData = await createPayment({
+      amount: order.totalAmount,
+      description: 'Order #' + order.id,
+      orderId: order.id,
+    });
+
+    if (!paymentData) {
+      throw new Error('Payment data not found');
+    }
+
+    await prisma.order.update({
+      where: {
+        id: order.id,
+      },
+      data: {
+        paymentId: paymentData.id,
+      },
+    });
+
+    const paymentUrl = paymentData.confirmation.confirmation_url;
 
     await sendEmail(
       data.email,
@@ -84,9 +103,10 @@ export async function createOrder(data: CheckoutFormValues) {
       PayOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
-        paymentUrl: 'https://google.com',
+        paymentUrl,
       })
     );
+    return paymentUrl;
   } catch (err) {
     console.log('[CreateOrder] Server error', err);
   }

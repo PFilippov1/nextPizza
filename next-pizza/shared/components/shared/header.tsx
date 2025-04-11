@@ -4,11 +4,12 @@ import { cn } from '@/shared/lib/utils';
 import React from 'react';
 import Image from 'next/image';
 import { Button } from '../ui';
-import { CartButton, Container, SearchInput } from '.';
+import { AuthModal, CartButton, Container, ProfileButton, SearchInput } from '.';
 import { User } from 'lucide-react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { useSession, signIn } from 'next-auth/react';
 
 interface Props {
   hasSearch?: boolean;
@@ -16,11 +17,10 @@ interface Props {
   className?: string;
 }
 
-export const Header: React.FC<Props> = ({ hasSearch = true, hasCart=true, className }) => {
-
+export const Header: React.FC<Props> = ({ hasSearch = true, hasCart = true, className }) => {
   const router = useRouter();
-
   const searchParams = useSearchParams();
+  const [openAuthModal, setOpenAuthModal] = React.useState(false);
 
   React.useEffect(() => {
     let toastMessage = '';
@@ -42,7 +42,6 @@ export const Header: React.FC<Props> = ({ hasSearch = true, hasCart=true, classN
       }, 1000);
     }
   }, []);
-
 
   return (
     <header className={cn(' border-b', className)}>
@@ -66,10 +65,9 @@ export const Header: React.FC<Props> = ({ hasSearch = true, hasCart=true, classN
 
         {/* right part */}
         <div className="flex items-center gap-3">
-          <Button variant="outline" className="flex items-center gap-1">
-            <User size={16} />
-            Enter
-          </Button>
+          <AuthModal open={openAuthModal} onClose={() => setOpenAuthModal(false)} />
+
+          <ProfileButton onClickSignIn={() => setOpenAuthModal(true)} />
 
           {hasCart && <CartButton />}
         </div>

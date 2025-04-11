@@ -2,9 +2,12 @@
 
 import { prisma } from '@/prisma/prisma-client';
 import { PayOrderTemplate } from '@/shared/components';
+import { VerificationUserTemplate } from '@/shared/components/shared/email-templates/verification-user';
 import { CheckoutFormValues } from '@/shared/constants';
 import { createPayment, sendEmail } from '@/shared/lib';
-import { OrderStatus } from '@prisma/client';
+import { getUserSession } from '@/shared/lib/get-user-session';
+import { OrderStatus, Prisma } from '@prisma/client';
+import { hashSync } from 'bcrypt';
 import { cookies } from 'next/headers';
 
 export async function createOrder(data: CheckoutFormValues) {
@@ -16,7 +19,7 @@ export async function createOrder(data: CheckoutFormValues) {
       throw new Error('Cart token not found');
     }
 
-    /* Find a cart by token */
+    /*Find a token basket */
     const userCart = await prisma.cart.findFirst({
       include: {
         user: true,
@@ -36,11 +39,12 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    /* If the cart is not found, then return the error */
+    /* If the basket is not found, we  trow the error */
     if (!userCart) {
       throw new Error('Cart not found');
     }
-    /* If the empty cart is an error */
+
+    /* If the empty basket is an error */
     if (userCart?.totalAmount === 0) {
       throw new Error('Cart is empty');
     }
@@ -60,7 +64,7 @@ export async function createOrder(data: CheckoutFormValues) {
       },
     });
 
-    /* Clear the cart */
+    /* Clean the basket */
     await prisma.cart.update({
       where: {
         id: userCart.id,
@@ -78,8 +82,8 @@ export async function createOrder(data: CheckoutFormValues) {
 
     const paymentData = await createPayment({
       amount: order.totalAmount,
-      description: 'Order #' + order.id,
       orderId: order.id,
+      description: 'Payment of the order #' + order.id,
     });
 
     if (!paymentData) {
@@ -99,15 +103,92 @@ export async function createOrder(data: CheckoutFormValues) {
 
     await sendEmail(
       data.email,
-      'Please pay the order #' + order.id,
+      'Next Pizza / Pay the order #' + order.id,
       PayOrderTemplate({
         orderId: order.id,
         totalAmount: order.totalAmount,
         paymentUrl,
-      })
+      }),
     );
+
     return paymentUrl;
   } catch (err) {
     console.log('[CreateOrder] Server error', err);
+  }
+}
+
+export async function updateUserInfo(body: Prisma.UserUpdateInput) {
+  try {
+    const currentUser = await getUserSession();
+
+    if (!currentUser) {
+      throw new Error('The user was not found');
+    }
+
+    const findUser = await prisma.user.findFirst({
+      where: {
+        id: Number(currentUser.id),
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        id: Number(currentUser.id),
+      },
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        password: body.password ? hashSync(body.password as string, 10) : findUser?.password,
+      },
+    });
+  } catch (err) {
+    console.log('Error [UPDATE_USER]', err);
+    throw err;
+  }
+}
+
+export async function registerUser(body: Prisma.UserCreateInput) {
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        email: body.email,
+      },
+    });
+
+    if (user) {
+      if (!user.verified) {
+        throw new Error('Mail is not confirmed');
+      }
+
+      throw new Error('The user already exists');
+    }
+
+    const createdUser = await prisma.user.create({
+      data: {
+        fullName: body.fullName,
+        email: body.email,
+        password: hashSync(body.password, 10),
+      },
+    });
+
+    const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+    await prisma.verificationCode.create({
+      data: {
+        code,
+        userId: createdUser.id,
+      },
+    });
+
+    await sendEmail(
+      createdUser.email,
+      'Next Pizza / 📝 Confirmation of registration',
+      VerificationUserTemplate({
+        code,
+      }),
+    );
+  } catch (err) {
+    console.log('Error [CREATE_USER]', err);
+    throw err;
   }
 }

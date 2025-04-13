@@ -1,6 +1,5 @@
 import { Nunito } from 'next/font/google';
 import './globals.css';
-import { Toaster } from 'react-hot-toast';
 import { Providers } from '@/shared/components';
 
 const nunito = Nunito({

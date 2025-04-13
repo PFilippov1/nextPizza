@@ -48,7 +48,7 @@ export default function CheckoutPage() {
     if (session) {
       fetchUserInfo();
     }
-  }, [session]);
+  }, [session, form]);
 
   const onSubmit = async (data: CheckoutFormValues) => {
     try {
@@ -65,6 +65,7 @@ export default function CheckoutPage() {
       }
     } catch (error) {
       setSubmitting(false);
+      console.error('Error creating order:', error);
       toast.error('Cannot create order', { icon: '❌' });
     }
   };

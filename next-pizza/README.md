@@ -1,36 +1,30 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Building a Powerful E-commerce Platform with Next.js
 
-## Getting Started
+I'm developing a full-featured e-commerce platform using cutting-edge technologies. The project includes:
 
-First, run the development server:
+* **Advanced Product Filtering:** Server-side rendering, URI parameters for SEO friendliness.
+* **User-Friendly Product Catalog:** Product display, shopping cart functionality.
+* **Comprehensive Authentication:** Login/password, GitHub, Google, email verification.
+* **Profile Customization:** User profile editing.
+* **Secure Payment Processing:** Yookassa integration.
+* **Flexible Product Display:** Modal windows and separate pages (Parallel Routes).
+* **Automated Email Notifications:** Registration, order creation, and successful payment.
+* **Reliable Hosting:** Vercel for database and application deployment.
+* **Real-World Examples:** Client-side and server-side component implementation.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**Tech Stack:**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Next.js:** (Parallel Routes, Group Routes, Server Actions, API)
+* **TypeScript:** (type safety and scalability)
+* **TailwindCSS + ShadCN:** (rapid and stylish UI development)
+* **Prisma + PostgreSQL:** (robust database solution)
+* **NextAuth:** (seamless authentication)
+* **React Hook Form + Zod:** (form validation)
+* **Zustand:** (state management)
+* **react-use:** (useful React hooks)
+* **nextjs-toploader:** (loading indicator)
+* **react-hot-toast:** (user notifications)
+* **react-insta-stories:** (visual stories)
+* **lucide-react:** (icon library)
+* **Resend:** (email sending)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

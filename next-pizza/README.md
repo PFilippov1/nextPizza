@@ -1,6 +1,8 @@
 # Building a Powerful E-commerce Platform with Next.js
 
-I'm developing a full-featured e-commerce platform using cutting-edge technologies. The project includes:
+# [Pizza Store](https://next-pizza-fh9e5uboa-pavels-projects-71203b3e.vercel.app/)
+
+This is full-featured e-commerce platform using cutting-edge technologies. The project includes:
 
 * **Advanced Product Filtering:** Server-side rendering, URI parameters for SEO friendliness.
 * **User-Friendly Product Catalog:** Product display, shopping cart functionality.
